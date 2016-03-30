@@ -4,6 +4,8 @@
 
 ## Description
 
+Note: this package is designed to be used only with the "parametric" version of POMDPs (i.e. a version that exports POMDP{S,A,O} rather than POMDP).
+
 This package extends POMDPs.jl by providing a single interface function that makes implementing and solving problems with generative models easier.
 
 For POMDPs, this function is
