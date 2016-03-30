@@ -5,10 +5,10 @@ os:
   - osx
 julia:
   - release
-  - nightly
 notifications:
   email: false
 # uncomment the following lines to override the default test script
-#script:
-#  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-#  - julia -e 'Pkg.clone(pwd()); Pkg.build("GenerativeModels"); Pkg.test("GenerativeModels"; coverage=true)'
+script:
+  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
+  - julia -e 'Pkg.clone("https://github.com/JuliaPOMDP/POMDPs.jl.git")'
+  - julia -e 'Pkg.clone(pwd()); Pkg.build("GenerativeModels"); Pkg.test("GenerativeModels"; coverage=true)'
