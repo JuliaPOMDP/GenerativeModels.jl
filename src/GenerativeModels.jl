@@ -33,10 +33,14 @@ function generate_or{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=cr
     return generate_o(p, s, a, sp, rng, o), reward(p, s, a, sp)
 end
 
-
 function generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
     sp,o = generate_so(p, s, a, rng, sp, o)
     return sp, o, reward(p, s, a, sp)
+end
+
+function initial_state(p::POMDP{S}, rng::AbstractRNG, s::S=create_state(p))
+    b = initial_belief(p)
+    return rand(rng, b, s)
 end
 
 end # module
