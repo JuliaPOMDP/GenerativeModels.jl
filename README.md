@@ -25,7 +25,7 @@ The `generate_` functions should return the appropriate combination of a sampled
 
 A problem writer will generally only have to implement one or two of these functions for all solvers to work (see below).
 
-`initial_state()` should return a suitable initial state for the problem.
+`initial_state()` should return a suitable initial state for the problem. By overriding this, the problem-writer can avoid the need to create distribution types.
 
 ## Installation
 

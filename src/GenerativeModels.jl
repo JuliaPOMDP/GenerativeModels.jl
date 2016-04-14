@@ -7,7 +7,8 @@ export generate_s,
        generate_sr,
        generate_so,
        generate_or,
-       generate_sor
+       generate_sor,
+       initial_state
 
 function generate_s{S}(p::POMDP{S}, s, a, rng::AbstractRNG, sp::S=create_state(p))
     td = transition(p, s, a)
@@ -38,7 +39,7 @@ function generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=crea
     return sp, o, reward(p, s, a, sp)
 end
 
-function initial_state(p::POMDP{S}, rng::AbstractRNG, s::S=create_state(p))
+function initial_state{S}(p::POMDP{S}, rng::AbstractRNG, s::S=create_state(p))
     b = initial_belief(p)
     return rand(rng, b, s)
 end
