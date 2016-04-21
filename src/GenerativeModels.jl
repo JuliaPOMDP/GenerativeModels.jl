@@ -21,7 +21,7 @@ function generate_o{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=cre
 end
 
 function generate_sr{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
-    sp = generate_s(p, s, a, rng)
+    sp = generate_s(p, s, a, rng, sp)
     return sp, reward(p, s, a, sp)
 end
 
