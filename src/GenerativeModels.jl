@@ -40,8 +40,8 @@ function generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=crea
 end
 
 function initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=create_state(p))
-    b = initial_belief(p)
-    return rand(rng, b, s)
+    d = initial_state_distribution(p)
+    return rand(rng, d, s)
 end
 
 end # module
