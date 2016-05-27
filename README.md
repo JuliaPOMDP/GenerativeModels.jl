@@ -19,7 +19,7 @@ generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG) -> (s::S, o::O, r)
 initial_state{S}(p::POMDP{S}, rng::AbstractRNG) -> s::S
 ```
 
-Note that in POMDPs.jl, an `MDP{S,A}` is a `POMDP{S,A,S}`, so all of these functions apply to MDPs as well as POMDPs (see below for more details (i.e. optional arguments, etc.)).
+The functions that do not deal with observations are defined for `MDP`s as well as `POMDP`s.
 
 The `generate_` functions should return the appropriate combination of a sampled next state, `sp`, sampled observation, `o`, and reward `r`. Many solvers, for example MCTS and its derivatives such as POMCP, only require a generative model and never require explicit distributions. If these solvers use only `generate_` functions, the problem writer may implement `generate_...()` **instead of** `transition()` and `observation()`.
 
