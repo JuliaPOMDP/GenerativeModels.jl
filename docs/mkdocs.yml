@@ -1,0 +1,26 @@
+site_name:        GenerativeModels.jl
+repo_url:         https://github.com/JuliaPOMDP/GenerativeModels.jl 
+site_description: API for defining Generative Models for partially observable Markov decision processes in Julia.
+site_author:      Zachary Sunberg
+
+theme: readthedocs
+
+extra_css:
+  - assets/Documenter.css
+
+markdown_extensions:
+  - extra
+  - tables
+  - fenced_code
+  #- mdx_math
+
+extra_javascript:
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML
+  - assets/mathjaxhelper.js
+
+docs_dir: 'build'
+
+pages:
+  - About: index.md
+  - API: api.md
+  - FAQ: faq.md
