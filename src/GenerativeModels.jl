@@ -13,7 +13,7 @@ export generate_s,
 """
     generate_s{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
 
-Returns the next state `sp` given current state `s` and action taken `a`.
+Return the next state `sp` given current state `s` and action taken `a`.
 """
 function generate_s{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
     td = transition(p, s, a)
@@ -23,7 +23,7 @@ end
 """
     generate_o{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=create_observation(p))
 
-Returns the next observation given current state `s`, action taken `a` and next state `sp`.
+Return the next observation given current state `s`, action taken `a` and next state `sp`.
 
 Usually the observation would only depend on the next state `sp`.
 """
@@ -35,7 +35,7 @@ end
 """
     generate_sr{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
 
-Returns the next state `sp` and reward for taking action `a` in current state `s`.
+Return the next state `sp` and reward for taking action `a` in current state `s`.
 """
 function generate_sr{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
     sp = generate_s(p, s, a, rng, sp)
@@ -45,7 +45,7 @@ end
 """
     generate_so{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
 
-Returns the next state `sp` and observation `o`.
+Return the next state `sp` and observation `o`.
 """
 function generate_so{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
     sp = generate_s(p, s, a, rng, sp)
@@ -55,7 +55,7 @@ end
 """
     generate_or{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=create_observation(p))
 
-Returns the observation `o` and reward for taking action `a` in current state `s` reaching state `sp`.
+Return the observation `o` and reward for taking action `a` in current state `s` reaching state `sp`.
 """
 function generate_or{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=create_observation(p))
     return generate_o(p, s, a, sp, rng, o), reward(p, s, a, sp)
@@ -64,7 +64,7 @@ end
 """
     generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
 
-Returns the next state `sp`, observation `o` and reward for taking action `a` in current state `s`.
+Return the next state `sp`, observation `o` and reward for taking action `a` in current state `s`.
 """
 function generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
     sp,o = generate_so(p, s, a, rng, sp, o)
@@ -74,7 +74,7 @@ end
 """
     initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=create_state(p))
 
-Returns the initial state for the problem `p`.
+Return the initial state for the problem `p`.
 
 Usually the initial state is sampled from an initial state distribution.
 """
