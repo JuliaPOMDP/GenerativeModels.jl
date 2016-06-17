@@ -35,7 +35,7 @@ end
 """
     generate_o{S,A,O}(p::POMDP{S,A,O}, s, rng::AbstractRNG, o::O=create_observation(p))
 
-Returns the observation from the current state. This should be used to generate initial observations.
+Return the observation from the current state. This should be used to generate initial observations.
 """
 POMDPs.@pomdp_func generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, rng::AbstractRNG, o::O=create_observation(p))
 
