@@ -33,6 +33,13 @@ function generate_o{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=cre
 end
 
 """
+    generate_o{S,A,O}(p::POMDP{S,A,O}, s, rng::AbstractRNG, o::O=create_observation(p))
+
+Returns the observation from the current state. This should be used to generate initial observations.
+"""
+POMDPs.@pomdp_func generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, rng::AbstractRNG, o::O=create_observation(p))
+
+"""
     generate_sr{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
 
 Return the next state `sp` and reward for taking action `a` in current state `s`.
@@ -82,5 +89,6 @@ function initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=crea
     d = initial_state_distribution(p)
     return rand(rng, d, s)
 end
+
 
 end # module
