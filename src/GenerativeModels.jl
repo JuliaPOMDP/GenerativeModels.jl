@@ -1,3 +1,6 @@
+__precompile__()
+
+
 module GenerativeModels
 
 using POMDPs
