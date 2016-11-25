@@ -1,5 +1,10 @@
 using GenerativeModels
 using Base.Test
 
-# write your own tests here
-@test 1 == 1
+using POMDPs
+type A <: POMDP{Int,Bool,Bool} end
+
+GenerativeModels.disable_default_implementations()
+
+@test_throws MethodError initial_state(A(), Base.GLOBAL_RNG)
+@test_throws MethodError generate_s(A(), 1, true, Base.GLOBAL_RNG)

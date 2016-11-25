@@ -94,4 +94,14 @@ function initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=crea
 end
 
 
+function disable_default_implementations()
+    POMDPs.@pomdp_func GenerativeModels.generate_s{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
+    POMDPs.@pomdp_func GenerativeModels.generate_sr{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
+    POMDPs.@pomdp_func GenerativeModels.generate_so{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
+    POMDPs.@pomdp_func GenerativeModels.generate_or{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG, o::O=create_observation(p))
+    POMDPs.@pomdp_func GenerativeModels.generate_sor{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
+    POMDPs.@pomdp_func GenerativeModels.initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=create_state(p))
+end
+
+
 end # module

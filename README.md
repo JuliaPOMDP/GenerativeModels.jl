@@ -31,6 +31,12 @@ A problem writer will generally only have to implement one or two of these funct
 Pkg.clone("https://github.com/JuliaPOMDP/GenerativeModels.jl.git")
 ```
 
+## Debugging
+
+The `generate_` functions have default implementations that allow them to automatically work with problems implemented using the POMDPs.jl interface. However, these implementations can sometimes make debugging difficult. For example if `generate_s` is not implemented for an MDP, because of the default implementation, an error saying that there is no appropriate method for `create_transition_distribution` will be thrown, and if `initial_state` is not implemented, an error for `initial_state_distribution` will be thrown.
+
+**To disable these default implementations, after `GenerativeModels` is imported, run `GenerativeModels.disable_default_implementations()`.** This will cause some warnings, but it will then throw helpful errors when GenerativeModels functions are called without appropriate implementations.
+
 ## Other details
 
 The function `generate()` also has optional trailing arguments for preallocated states and observations similar to the other functions in POMDPs.jl
