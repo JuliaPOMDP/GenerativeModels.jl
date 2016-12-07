@@ -35,21 +35,7 @@ Pkg.clone("https://github.com/JuliaPOMDP/GenerativeModels.jl.git")
 
 The `generate_` functions have default implementations that allow them to automatically work with problems implemented using the POMDPs.jl interface. However, these implementations can sometimes make debugging difficult. For example if `generate_s` is not implemented for an MDP, because of the default implementation, an error saying that there is no appropriate method for `create_transition_distribution` will be thrown, and if `initial_state` is not implemented, an error for `initial_state_distribution` will be thrown.
 
-**To disable these default implementations, after `GenerativeModels` is imported, run `GenerativeModels.disable_default_implementations()`.** This will cause some warnings, but it will then throw helpful errors when GenerativeModels functions are called without appropriate implementations.
-
 ## Other details
-
-The function `generate()` also has optional trailing arguments for preallocated states and observations similar to the other functions in POMDPs.jl
-
-The full method signatures are
-```julia
-generate_s{S}(p::POMDP{S}, s, a, rng::AbstractRNG, sp::S=S())
-generate_o{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=O())
-generate_sr{S}(p::POMDP{S}, s, a, rng::AbstractRNG, sp::S=S())
-generate_so{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=S(), o::O=O())
-generate_or{S,A,O}(p::POMDP{S,A,O}, s, a, sp, rng::AbstractRNG, o::O=O())
-generate_sor{S,A,O}(p::POMDP{S,A,O}, s, a, rng::AbstractRNG, sp::S=S(), o::O=O())
-```
 
 Default implementations of the functions are provided in `src/GenerativeModels.jl` so that, if the problem implementer has implemented `transition()`, `observation()`, and `rand()` appropriately, the `generate_` functions will be automatically available for solvers to use, though this implementation is potentially inefficient because a new distribution is allocated every time a state is generated.
 
