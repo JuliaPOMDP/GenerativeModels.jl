@@ -70,41 +70,7 @@ Usually the initial state is sampled from an initial state distribution.
 """
 function initial_state end
 
-
-#=
-function generate_s{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG)
-    td = transition(p, s, a)
-    return rand(rng, td)
-end
-
-function generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp, rng::AbstractRNG)
-    od = observation(p, s, a, sp)
-    return rand(rng, od)
-end
-
-function generate_sr{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG)
-    sp = generate_s(p, s, a, rng)
-    return sp, reward(p, s, a, sp)
-end
-
-function generate_so{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG)
-    sp = generate_s(p, s, a, rng)
-    return sp, generate_o(p, s, a, sp, rng)
-end
-
-function generate_or{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG)
-    return generate_o(p, s, a, sp, rng), reward(p, s, a, sp)
-end
-
-function generate_sor{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG)
-    sp,o = generate_so(p, s, a, rng)
-    return sp, o, reward(p, s, a, sp)
-end
-
-function initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG)
-    d = initial_state_distribution(p)
-    return rand(rng, d)
-end
-=#
+# provides default implementations when they are available
+include("defaults.jl")
 
 end # module
