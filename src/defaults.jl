@@ -19,7 +19,7 @@ end
             return rand(rng, td)
         end
     else
-        warn("Attempted to synthesize generate_s() but couldn't. Make sure to restart julia after fixing the error!")
+        failed_synth_warning(generate_s)
         return :(throw(MethodError(generate_s, (p,s,a,rng))))
     end
 end
@@ -41,7 +41,7 @@ end
             return sp, reward(p, s, a, sp)
         end
     else
-        warn("Attempted to synthesize generate_sr() but couldn't. Make sure to restart julia after fixing the error!")
+        failed_synth_warning(generate_sr)
         return :(throw(MethodError(generate_sr, (p,s,a,rng))))
     end
 end
@@ -60,10 +60,10 @@ end
     if implemented(observation, Tuple{p, s, a, sp})
         return quote
             od = observation(p, s, a, sp)
-            return rand(rng, od, o)
+            return rand(rng, od)
         end
     else
-        warn("Attempted to synthesize generate_o() but couldn't. Make sure to restart julia after fixing the error!")
+        failed_synth_warning(generate_o)
         return :(throw(MethodError(generate_o, (p, s, a, sp, rng))))
     end
 end
@@ -86,7 +86,7 @@ end
             return sp, generate_o(p, s, a, sp, rng)
         end
     else
-        warn("Attempted to synthesize generate_so() but couldn't. Make sure to restart julia after fixing the error!")
+        failed_synth_warning(generate_so)
         return :(throw(MethodError(generate_so, (p,s,a,rng))))
     end
 end
@@ -108,7 +108,7 @@ end
             return sp, o, reward(p, s, a, sp)
         end
     else
-        warn("Attempted to synthesize generate_sor() but couldn't. Make sure to restart julia after fixing the error!")
+        failed_synth_warning(generate_sor)
         return :(throw(MethodError(generate_sor, (p,s,a,rng))))
     end
 end
@@ -131,6 +131,7 @@ end
             return o, reward(p, s, a, sp)
         end
     else
+        failed_synth_warning(generate_or)
         return :(throw(MethodError(generate_or, (p,s,a,sp,rng))))
     end
 end
@@ -152,6 +153,11 @@ end
             return rand(rng, d)
         end
     else
+        failed_synth_warning(initial_state)
         return :(throw(MethodError(initial_state, (p, rng))))
     end
 end
+
+failed_synth_warning(func) = warn("""
+GenerativeModels.jl: Could not find or synthesize $func(). Did you remember to explicitly import it? You may need to restart Julia if you were expecting $func to be automatically synthesized by combining other functions.
+                                """)
