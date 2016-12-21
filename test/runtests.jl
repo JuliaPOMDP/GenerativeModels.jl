@@ -6,6 +6,7 @@ using POMDPs
 import POMDPs: transition, reward, initial_state_distribution
 type A <: POMDP{Int,Bool,Bool} end
 
+println("Warning expected:")
 @test_throws MethodError initial_state(A(), Base.GLOBAL_RNG)
 println("Warning expected:")
 @test_throws MethodError generate_s(A(), 1, true, Base.GLOBAL_RNG)

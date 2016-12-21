@@ -27,7 +27,8 @@ end
 
 function implemented(f::typeof(generate_sr), TT::Type)
     m = which(f, TT)
-    if m.module == GenerativeModels && !implemented(generate_s, TT)
+    reqs_met = implemented(generate_s, TT) && implemented(reward, Tuple{TT.parameters[1:end-1]..., TT.parameters[2]})
+    if m.module == GenerativeModels && !reqs_met
         return false
     else # a more specific implementation exists
         return true
@@ -94,7 +95,8 @@ end
 
 function implemented(f::typeof(generate_sor), TT::Type)
     m = which(f, TT)
-    if m.module == GenerativeModels && !implemented(generate_so, TT)
+    reqs_met = implemented(generate_so, TT) && implemented(reward, Tuple{TT.parameters[1:end-1]..., TT.parameters[2]})
+    if m.module == GenerativeModels && !reqs_met
         return false
     else # a more specific implementation exists
         return true
@@ -117,7 +119,8 @@ end
 
 function implemented(f::typeof(generate_or), TT::Type)
     m = which(f, TT)
-    if m.module == GenerativeModels && !implemented(generate_o, TT)
+    reqs_met = implemented(generate_o, TT) && implemented(reward, Tuple{TT.parameters[1:end-1]..., TT.parameters[2]})
+    if m.module == GenerativeModels && !reqs_met
         return false
     else # a more specific implementation exists
         return true
