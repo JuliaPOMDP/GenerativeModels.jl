@@ -14,94 +14,63 @@ export generate_s,
        initial_state
 
 """
-    generate_s{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
+    generate_s{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG)
 
-Return the next state `sp` given current state `s` and action taken `a`.
+Return the next state given current state `s` and action taken `a`.
 """
-function generate_s{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
-    td = transition(p, s, a)
-    return rand(rng, td, sp)
-end
+function generate_s end
 
 """
-    generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp, rng::AbstractRNG, o::O=create_observation(p))
+    generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG)
 
 Return the next observation given current state `s`, action taken `a` and next state `sp`.
 
 Usually the observation would only depend on the next state `sp`.
-"""
-function generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp, rng::AbstractRNG, o::O=create_observation(p))
-    od = observation(p, s, a, sp)
-    return rand(rng, od, o)
-end
 
-"""
-    generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, rng::AbstractRNG, o::O=create_observation(p))
+    generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, rng::AbstractRNG)
 
 Return the observation from the current state. This should be used to generate initial observations.
 """
-POMDPs.@pomdp_func generate_o{S,A,O}(p::POMDP{S,A,O}, s::S, rng::AbstractRNG, o::O=create_observation(p))
+function generate_o end
 
 """
-    generate_sr{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG, sp::S=create_state(p))
+    generate_sr{S}(p::Union{POMDP{S},MDP{S}}, s, a, rng::AbstractRNG)
 
 Return the next state `sp` and reward for taking action `a` in current state `s`.
 """
-function generate_sr{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
-    sp = generate_s(p, s, a, rng, sp)
-    return sp, reward(p, s, a, sp)
-end
+function generate_sr end
 
 """
-    generate_so{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
+    generate_so{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG)
 
 Return the next state `sp` and observation `o`.
 """
-function generate_so{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
-    sp = generate_s(p, s, a, rng, sp)
-    return sp, generate_o(p, s, a, sp, rng, o)
-end
+function generate_so end
 
 """
-    generate_or{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG, o::O=create_observation(p))
+    generate_or{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG)
 
 Return the observation `o` and reward for taking action `a` in current state `s` reaching state `sp`.
 """
-function generate_or{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG, o::O=create_observation(p))
-    return generate_o(p, s, a, sp, rng, o), reward(p, s, a, sp)
-end
+function generate_or end
 
 """
-    generate_sor{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
+    generate_sor{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG)
 
 Return the next state `sp`, observation `o` and reward for taking action `a` in current state `s`.
 """
-function generate_sor{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
-    sp,o = generate_so(p, s, a, rng, sp, o)
-    return sp, o, reward(p, s, a, sp)
-end
+function generate_sor end
 
 """
-    initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=create_state(p))
+    initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG)
 
 Return the initial state for the problem `p`.
 
 Usually the initial state is sampled from an initial state distribution.
 """
-function initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=create_state(p))
-    d = initial_state_distribution(p)
-    return rand(rng, d, s)
-end
+function initial_state end
 
-
-function disable_default_implementations()
-    POMDPs.@pomdp_func GenerativeModels.generate_s{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
-    POMDPs.@pomdp_func GenerativeModels.generate_sr{S,A}(p::Union{POMDP{S,A},MDP{S,A}}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p))
-    POMDPs.@pomdp_func GenerativeModels.generate_so{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
-    POMDPs.@pomdp_func GenerativeModels.generate_or{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, sp::S, rng::AbstractRNG, o::O=create_observation(p))
-    POMDPs.@pomdp_func GenerativeModels.generate_sor{S,A,O}(p::POMDP{S,A,O}, s::S, a::A, rng::AbstractRNG, sp::S=create_state(p), o::O=create_observation(p))
-    POMDPs.@pomdp_func GenerativeModels.initial_state{S}(p::Union{POMDP{S},MDP{S}}, rng::AbstractRNG, s::S=create_state(p))
-end
-
+# provides default implementations when they are available
+include("defaults.jl")
 
 end # module
