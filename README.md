@@ -42,7 +42,7 @@ Default implementations of the functions are provided in `src/defaults.jl` so th
 
 ## Which function(s) should I implement for my problem / use in my solver?
 
-## Problem Writers
+### Problem Writers
 
 Generally, a problem implementer need only implement the simplest one or two of these functions, and the rest are automatically synthesized at runtime.
 
@@ -52,7 +52,7 @@ Use the following logic to determine which functions to implement:
 - If you are implementing the problem from scratch in Julia, implement `generate_s` and `generate_o`.
 - Otherwise, if your external simulator returns *x*, where *x* is one of *sr*, *so*, *or*, or *sor*, implement `generate_x`. (you may also have to implement `generate_s` separately for use in particle filters).
 
-## Solver and Simulator Writers
+### Solver and Simulator Writers
 
 Solver writers should use the single function that generates everything that they need and nothing they don't. For example, if the solver needs access to the state, observation, and reward at every timestep, they should use `generate_sor()` rather than `generate_s()` and `generate_or()`, and if the solver needs access to the state and reward, they should use `generate_sr()` rather than `generate_sor()`. This will ensure the widest interoperability between solvers and problems.
 
