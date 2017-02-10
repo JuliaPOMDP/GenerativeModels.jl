@@ -27,7 +27,7 @@ generate_o(b::B, s::Int, a::Bool, sp::Int, rng::AbstractRNG) = sp
 @test @implemented generate_o(b::B, s::Int, a::Bool, sp::Int, rng::AbstractRNG)
 @test @implemented generate_so(b::B, s::Int, a::Bool, rng::MersenneTwister)
 @test @implemented generate_sor(b::B, s::Int, a::Bool, rng::MersenneTwister)
-generate_sor(B(), 1, true, Base.GLOBAL_RNG) == (1, 2, -1.0) # should throw sor error
+@test generate_sor(B(), 1, true, Base.GLOBAL_RNG) == (2, 2, -1.0) # should throw sor error
 
 initial_state_distribution(b::B) = Int[1,2,3]
 @test initial_state(B(), Base.GLOBAL_RNG) in initial_state_distribution(B())

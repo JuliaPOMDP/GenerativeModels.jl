@@ -4,6 +4,9 @@ import POMDPs.implemented
 # Yes, this could be cleaned up, but figuring out how the macro would work exactly took more thought
 
 function implemented(f::typeof(generate_s), TT::Type)
+    # if !method_exists(f, TT)
+    #     return false
+    # end
     m = which(f, TT)
     if m.module == GenerativeModels && !implemented(transition, Tuple{TT.parameters[1:end-1]...})
         return false
@@ -26,6 +29,9 @@ end
 
 
 function implemented(f::typeof(generate_sr), TT::Type)
+    # if !method_exists(f, TT)
+    #     return false
+    # end
     m = which(f, TT)
     reqs_met = implemented(generate_s, TT) && implemented(reward, Tuple{TT.parameters[1:end-1]..., TT.parameters[2]})
     if m.module == GenerativeModels && !reqs_met
@@ -47,8 +53,7 @@ end
     end
 end
 
-
-function implemented(f::typeof(generate_o), TT::Type)
+function implemented{P<:POMDP,S,A,RT<:AbstractRNG}(f::typeof(generate_o), TT::Type{Tuple{P,S,A,S,RT}})
     m = which(f, TT)
     if m.module == GenerativeModels && !implemented(observation, Tuple{TT.parameters[1:end-1]...})
         return false
@@ -69,8 +74,10 @@ end
     end
 end
 
-
 function implemented(f::typeof(generate_so), TT::Type)
+    # if !method_exists(f, TT)
+    #     return false
+    # end
     m = which(f, TT)
     reqs_met = implemented(generate_s, TT) && implemented(generate_o, Tuple{TT.parameters[1:end-1]..., TT.parameters[2], TT.parameters[end]})
     if m.module == GenerativeModels && !reqs_met
@@ -94,6 +101,9 @@ end
 
 
 function implemented(f::typeof(generate_sor), TT::Type)
+    # if !method_exists(f, TT)
+    #     return false
+    # end
     m = which(f, TT)
     reqs_met = implemented(generate_so, TT) && implemented(reward, Tuple{TT.parameters[1:end-1]..., TT.parameters[2]})
     if m.module == GenerativeModels && !reqs_met
@@ -118,6 +128,9 @@ end
 
 
 function implemented(f::typeof(generate_or), TT::Type)
+    # if !method_exists(f, TT)
+    #     return false
+    # end
     m = which(f, TT)
     reqs_met = implemented(generate_o, TT) && implemented(reward, Tuple{TT.parameters[1:end-1]..., TT.parameters[2]})
     if m.module == GenerativeModels && !reqs_met
@@ -141,6 +154,9 @@ end
 
 
 function implemented(f::typeof(initial_state), TT::Type)
+    # if !method_exists(f, TT)
+    #     return false
+    # end
     m = which(f, TT)
     if m.module == GenerativeModels && !implemented(initial_state_distribution, Tuple{TT.parameters[1]})
         return false
@@ -161,6 +177,6 @@ end
     end
 end
 
-failed_synth_warning(func) = warn("""
-GenerativeModels.jl: Could not find or synthesize $func(). Did you remember to explicitly import it? You may need to restart Julia if you were expecting $func to be automatically synthesized by combining other functions.
+failed_synth_warning(func) = Core.println("""
+WARNING: GenerativeModels.jl: Could not find or synthesize $func(). Did you remember to explicitly import it? You may need to restart Julia if you were expecting $func to be automatically synthesized by combining other functions.\n
                                 """)
