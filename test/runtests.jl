@@ -1,9 +1,8 @@
-using GenerativeModels
-import GenerativeModels: generate_o
 using Base.Test
 
 using POMDPs
 import POMDPs: transition, reward, initial_state_distribution
+import POMDPs: generate_o
 type A <: POMDP{Int,Bool,Bool} end
 
 println("Warning expected:")
